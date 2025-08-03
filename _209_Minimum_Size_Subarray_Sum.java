@@ -10,11 +10,11 @@ class Solution {
     int minSize = Integer.MAX_VALUE;
     int currentSum = 0;
     while (j < nums.length) {
-      slidingWindow.add(nums[j]);
+      slidingWindow.add(j);
       currentSum += nums[j];
       while (!slidingWindow.isEmpty() && currentSum >= target) {
         minSize = Math.min(minSize, slidingWindow.size());
-        int outOfBoundValue = slidingWindow.poll();
+        int outOfBoundValue = nums[slidingWindow.poll()];
         currentSum -= outOfBoundValue;
       }
       j++;
