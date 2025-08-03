@@ -17,10 +17,10 @@ class Solution {
     int sl,
     int n
   ) {
-    Map<String, Integer> f = new HashMap<>(freqMap);
     List<Integer> result = new ArrayList<>();
     int i = 0;
     while (i <= sl - l) {
+      Map<String, Integer> f = new HashMap<>(freqMap);
       int sub_string_end = i + l;
       // String subString = s.substring(i, sub_string_end);
       int starting = i;
@@ -35,7 +35,7 @@ class Solution {
         j += wl;
       }
       if (j == sub_string_end) result.add(starting);
-      f = new HashMap<>(freqMap);
+
       i++;
     }
     return result;
