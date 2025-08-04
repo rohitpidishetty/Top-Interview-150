@@ -39,14 +39,14 @@ class Solution {
         m.put(offset, m.get(offset) + 1);
         // Pushing out a valid character out of the window.
         if (m.get(offset) > 0) {
-          System.out.println(offset);
+          // System.out.println(offset);
           wordCount++;
         }
         starting++;
       }
       ending++;
     }
-    return s.substring(START, ENDING + 1);
+    return minWin == Integer.MAX_VALUE ? "" : s.substring(START, ENDING + 1);
   }
 }
 
