@@ -3,7 +3,7 @@ import java.util.Arrays;
 class Solution {
 
   public int findMinArrowShots(int[][] points) {
-    Arrays.sort(points, (a, b) -> Integer.compare(a[0], b[0]));
+    Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
     int arrows = 1;
     int previousEnd[] = points[0];
     for (int i = 1; i < points.length; i++) {
