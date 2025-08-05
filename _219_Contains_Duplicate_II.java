@@ -1,23 +1,23 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class Solution {
 
   public boolean containsNearbyDuplicate(int[] nums, int k) {
-    Map<Integer, List<Integer>> m = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-      if (m.get(nums[i]) == null) m.put(nums[i], new ArrayList<>());
-      m.get(nums[i]).add(i);
-    }
-    for (Collection<Integer> arr : m.values()) {
-      Object[] arr_x = arr.toArray();
-      int i = 1;
-      for (; i < arr_x.length; i++) {
-        if ((int) arr_x[i] - (int) arr_x[i - 1] <= k) return true;
+    int i = 0;
+    Set<Integer> window = new HashSet<>();
+    while (i < nums.length) {
+      if (window.contains(nums[i])) return true;
+      window.add(nums[i]);
+      if (window.size() > k) {
+        window.remove(nums[i - k + 1]);
       }
+      i++;
     }
     return false;
   }
