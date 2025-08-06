@@ -35,7 +35,7 @@ class Solution {
    */
 }
 
-public class _224_Basic_Calculator {
+public class _224_Calculator_Intro {
 
   public static void main(String[] args) {
     System.out.println(new Solution().calculate("223+-132+365+-52"));
