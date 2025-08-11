@@ -96,11 +96,104 @@ class Solution {
   }
 }
 
+class Solution2 {
+
+  private static class order {
+
+    protected int node;
+    protected int level;
+
+    public order(int node, int level) {
+      this.node = node;
+      this.level = level;
+    }
+  }
+
+  private Map<Integer, int[]> getCoordinates(int[][] board, int n, int n2) {
+    int i = n - 1;
+    int j = 0;
+    boolean direction = true;
+    Map<Integer, int[]> coords = new HashMap<>();
+    int idx = 1;
+    while (n2 > 0) {
+      coords.put(idx++, new int[] { i, j });
+      if (direction) {
+        if (j == n - 1) {
+          i--;
+          direction = false;
+        } else j++;
+      } else {
+        if (j == 0) {
+          i--;
+          direction = true;
+        } else j--;
+      }
+      n2--;
+    }
+    return coords;
+  }
+
+  public int snakesAndLadders(int[][] board) {
+    // BFS level order
+
+    int n = board.length;
+    int n2 = n * n;
+
+    Map<Integer, int[]> coords = getCoordinates(board, n, n2);
+
+    Set<Integer> visited = new HashSet<>();
+
+    Queue<order> bfsQ = new ArrayDeque<>();
+    bfsQ.offer(new order(1, 0));
+    visited.add(1);
+
+    while (!bfsQ.isEmpty()) {
+      order o = bfsQ.poll();
+      if (o.node == n2) {
+        return o.level;
+      }
+      for (
+        int neighbor = o.node + 1;
+        neighbor <= Math.min(n2, o.node + 6);
+        neighbor++
+      ) {
+        int[] coord = coords.get(neighbor);
+        int v = board[coord[0]][coord[1]];
+        if (v == -1) {
+          if (!visited.contains(neighbor)) {
+            bfsQ.add(new order(neighbor, o.level + 1));
+            visited.add(neighbor);
+          }
+        } else {
+          if (!visited.contains(v)) {
+            bfsQ.add(new order(v, o.level + 1));
+            visited.add(v);
+          }
+        }
+      }
+    }
+    return -1;
+  }
+}
+
 public class _909_Snakes_and_Ladders {
 
   public static void main(String[] args) {
+    // System.out.println(
+    //   new Solution()
+    //     .snakesAndLadders(
+    //       new int[][] {
+    //         { -1, -1, -1, -1, -1, -1 },
+    //         { -1, -1, -1, -1, -1, -1 },
+    //         { -1, -1, -1, -1, -1, -1 },
+    //         { -1, 35, -1, -1, 13, -1 },
+    //         { -1, -1, -1, -1, -1, -1 },
+    //         { -1, 15, -1, -1, -1, -1 },
+    //       }
+    //     )
+    // );
     System.out.println(
-      new Solution()
+      new Solution2()
         .snakesAndLadders(
           new int[][] {
             { -1, -1, -1, -1, -1, -1 },
