@@ -8,7 +8,7 @@ class TrieNode {
 
   protected TrieNode[] buffer = new TrieNode[26];
   protected boolean isEOW;
-  protected Set<String> words;
+  protected String words;
 }
 
 class TrieBuilder {
@@ -29,8 +29,7 @@ class TrieBuilder {
         } else setter = setter.buffer[ch];
       }
       setter.isEOW = true;
-      if (setter.words == null) setter.words = new HashSet<>();
-      setter.words.add(word);
+      setter.words = word;
     }
   }
 
@@ -43,13 +42,7 @@ class Solution {
 
   private Set<String> result;
 
-  private void solve(
-    char[][] board,
-    int i,
-    int j,
-    StringBuilder sb,
-    TrieNode trie
-  ) {
+  private void solve(char[][] board, int i, int j, TrieNode trie) {
     if (
       i < 0 ||
       j < 0 ||
@@ -60,34 +53,22 @@ class Solution {
 
     trie = trie.buffer[board[i][j] - 'a'];
     if (trie == null) return;
-
-    sb.append(board[i][j]);
-    if (trie.isEOW) result.addAll(trie.words);
-
+    if (trie.isEOW) result.add(trie.words);
     char save = board[i][j];
     board[i][j] = '*';
-    solve(board, i - 1, j, sb, trie);
-    solve(board, i + 1, j, sb, trie);
-    solve(board, i, j - 1, sb, trie);
-    solve(board, i, j + 1, sb, trie);
-
+    solve(board, i - 1, j, trie);
+    solve(board, i + 1, j, trie);
+    solve(board, i, j - 1, trie);
+    solve(board, i, j + 1, trie);
     board[i][j] = save;
-    sb.deleteCharAt(sb.length() - 1);
   }
 
   public List<String> findWords(char[][] board, String[] words) {
     TrieNode trie = new TrieBuilder(words).getRef();
     result = new HashSet<>();
     for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) solve(
-        board,
-        i,
-        j,
-        new StringBuilder(),
-        trie
-      );
+      for (int j = 0; j < board[i].length; j++) solve(board, i, j, trie);
     }
-
     return new ArrayList<>(result);
   }
 }
