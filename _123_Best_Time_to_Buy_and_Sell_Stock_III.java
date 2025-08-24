@@ -10,19 +10,19 @@ class Solution {
 
     // skip
     int skip = solve(s + 1, prices, T, state, memo);
-
+    int profit = 0;
     // buy
     if (state == 1) {
       int take = -prices[s] + solve(s + 1, prices, T, 0, memo);
-      memo[s][T][state] = Math.max(take, skip);
-      return memo[s][T][state];
+      profit = Math.max(take, skip);
     }
     // sell
     else {
       int sell = prices[s] + solve(s + 1, prices, T - 1, 1, memo);
-      memo[s][T][state] = Math.max(sell, skip);
-      return memo[s][T][state];
+      profit = Math.max(sell, skip);
     }
+    memo[s][T][state] = profit;
+    return profit;
   }
 
   public int maxProfit(int[] prices) {
